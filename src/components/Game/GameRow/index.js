@@ -17,16 +17,20 @@ const GameRow = ({row,rowIndex, selectedColor, gameConfig, setGameConfig, expect
         let targetResult = [...expectedResult];
         const configs= [...gameConfig];
         const row = configs[rowIndex];
+        const checkedIndexes = {...[...Array(noOFColorsToChose)]}; 
         // calculate correct guesses
         row?.circles?.forEach((colorInQuestion,index) => {
             if(colorInQuestion.color === expectedResult[index])
+            {
+                checkedIndexes[index] = true;
                 targetResult.splice(( targetResult.length - expectedResult.length + index),1);
+            }
         });
         const correct = expectedResult.length - targetResult.length;
 
         //calculate miss placed guesses
-        row?.circles?.forEach((colorInQuestion) => {
-            if(targetResult.includes(colorInQuestion.color))
+        row?.circles?.forEach((colorInQuestion,index) => {
+            if(targetResult.includes(colorInQuestion.color) && !checkedIndexes[index])
                 targetResult.splice([targetResult.indexOf(colorInQuestion.color)],1);
         });
         const missPlaced = expectedResult.length - correct - targetResult.length;
