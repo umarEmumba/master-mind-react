@@ -17,7 +17,7 @@ const GameRow = ({row,rowIndex, selectedColor, gameConfig, setGameConfig, expect
         let targetResult = [...expectedResult];
         const configs= [...gameConfig];
         const row = configs[rowIndex];
-        const checkedIndexes = {...[...Array(noOFColorsToChose)]}; 
+        const checkedIndexes = [...Array(noOFColorsToChose)]; 
         // calculate correct guesses
         row?.circles?.forEach((colorInQuestion,index) => {
             if(colorInQuestion.color === expectedResult[index])
