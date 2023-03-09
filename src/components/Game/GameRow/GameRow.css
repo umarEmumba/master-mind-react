@@ -1,0 +1,9 @@
+.game-row {
+    display: flex;
+}
+.check-button {
+    cursor: pointer;
+}
+.result-button-contaier {
+    min-width: 30px;
+}

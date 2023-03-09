@@ -1,0 +1,13 @@
+.game-content {
+    display: flex;
+}
+.left-content,.right-content {
+    margin: 0 10px; 
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+.result-container {
+    min-width: 30px;
+}

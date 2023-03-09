@@ -1,0 +1,10 @@
+const WhiteCircleIcon = () => {
+    return (
+        <span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
+                <circle cx="12" cy="12" r="10" fill="#fff" stroke="#000" strokeWidth="2"/>
+            </svg>
+        </span>
+    );
+}
+export default WhiteCircleIcon;

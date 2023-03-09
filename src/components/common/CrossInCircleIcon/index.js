@@ -1,0 +1,12 @@
+const CrossInCircleIcon = () => {
+    return (
+        <span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
+                <circle cx="12" cy="12" r="11" fill="#fff" stroke="#000" strokeWidth="2"/>
+                <line x1="7" y1="7" x2="17" y2="17" stroke="#000" strokeWidth="2"/>
+                <line x1="7" y1="17" x2="17" y2="7" stroke="#000" strokeWidth="2"/>
+            </svg>
+        </span>
+    );
+}
+export default CrossInCircleIcon;

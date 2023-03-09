@@ -1,0 +1,10 @@
+.result-padding {
+    display: flex;
+    max-width: 30px;
+    /* padding-top: 12px; */
+    flex-wrap: wrap;
+}
+
+.result-padding svg {
+    padding : 1px;
+}
