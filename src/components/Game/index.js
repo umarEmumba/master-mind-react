@@ -42,11 +42,12 @@ const Game = () => {
                     masterColors.map((color,index) => <div key={index} ><FillableCircle isHighlighted={color === selectedColor}  fillerColor={color} onClick={(_)=>setSelectedColor(color)} /></div> )
                 }
             </div>
+            {/* uncomment to show the desired sequence 
             <div>
                 {
                     targetColorSequence.map((color,index)=><div key={index} ><FillableCircle  fillerColor={color} onClick={(_)=>setSelectedColor(color)} /> </div>)
                 }
-            </div>
+            </div> */}
                 {
                     showInfoModal === "won" && 
                     <InfoModal 
