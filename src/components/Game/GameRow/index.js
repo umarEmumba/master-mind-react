@@ -1,25 +1,28 @@
 import './GameRow.css';
 import FillableCircle from "../../common/FillableCircle";
-import { allowedTries, defaultColor, noOFColorsToChose, rowStatuses } from '../../../utils';
+import { allowedTries, defaultColor, gameRow, noOFColorsToChose, rowStatuses } from '../../../utils';
 import RowResult from './RowResult';
+import { useEffect, useState } from 'react';
 
-const GameRow = ({row,rowIndex, selectedColor, gameConfig, setGameConfig, expectedResult, setActiveRowIndex, isDisabled, setShowInfoModal}) => {
-    
+const GameRow = ({rowIndex, selectedColor, expectedResult, setActiveRowIndex, isDisabled, setShowInfoModal}) => {
+    const [currentRow,setcurrentRow] = useState(gameRow());
+    useEffect(()=>{
+        setcurrentRow(gameRow());
+    },[expectedResult]);
+
     const setCircleColor = (circleIndex) => {
-        setGameConfig((prevGameConfig)=>{
-        const newGameConfig = [...prevGameConfig]
-            newGameConfig[rowIndex].circles[circleIndex].color = selectedColor;
-            return newGameConfig;
+        setcurrentRow((prevRow)=>{
+            const modifiedRow = {...prevRow}
+                modifiedRow.circles[circleIndex].color = selectedColor;
+                return modifiedRow;
         });
     }
     
     const calculateRowResult = ()=> {
         let targetResult = [...expectedResult];
-        const configs= [...gameConfig];
-        const row = configs[rowIndex];
         const checkedIndexes = [...Array(noOFColorsToChose)]; 
         // calculate correct guesses
-        row?.circles?.forEach((colorInQuestion,index) => {
+        currentRow?.circles?.forEach((colorInQuestion,index) => {
             if(colorInQuestion.color === expectedResult[index])
             {
                 checkedIndexes[index] = true;
@@ -27,69 +30,54 @@ const GameRow = ({row,rowIndex, selectedColor, gameConfig, setGameConfig, expect
             }
         });
         const correct = expectedResult.length - targetResult.length;
-
         //calculate miss placed guesses
-        row?.circles?.forEach((colorInQuestion,index) => {
+        currentRow?.circles?.forEach((colorInQuestion,index) => {
             if(targetResult.includes(colorInQuestion.color) && !checkedIndexes[index])
                 targetResult.splice([targetResult.indexOf(colorInQuestion.color)],1);
         });
         const missPlaced = expectedResult.length - correct - targetResult.length;
         const wrong = targetResult.length;
-        
         // set relevent states
         setActiveRowIndex((prevIndex)=> ++prevIndex);
-        setGameConfig((prevGameConfig)=> {
-            const modifiedGameConfigs = [...prevGameConfig];
-            modifiedGameConfigs[rowIndex].result = {
+        setcurrentRow((prevRow)=>{
+            const modifiedRow = {...prevRow}
+            modifiedRow.result = {
                 correct,missPlaced,wrong
             }
-            modifiedGameConfigs[rowIndex].status = rowStatuses.COMPLETED;
-            return modifiedGameConfigs;
+            modifiedRow.status = rowStatuses.COMPLETED;
+            return modifiedRow;
         });
         if(correct === noOFColorsToChose)
             setShowInfoModal("won");
         else if(rowIndex === allowedTries -1 )
             setShowInfoModal("failed");
     }
-    const isAllCirclesFilled = () => !gameConfig[rowIndex].circles.find((circle)=> circle.color === defaultColor)
+
+    const isAllCirclesFilled = () => !currentRow.circles.some((circle)=> circle.color === defaultColor)
 
     const disabledStyle = {
-        ...(isDisabled && {opacity :  0.6, pointerEvents : 'none', }),
-        ...(!isDisabled && {border :  '1px solid gray' }),
+        ...(isDisabled ? {opacity :  0.6, pointerEvents : "none", } : {border :  "1px solid gray" }),
     }
 
     return (
         <div className="game-row" style={disabledStyle}>
             {
-                row?.circles?.map((circle,index)=> (
+                currentRow?.circles?.map((circle,index)=> (
                 <FillableCircle key={index} fillerColor={circle.color} onClick={()=>setCircleColor(index)} />
                 ))
             }
-            <div className='result-button-contaier result-padding'>
+            <div className="result-button-contaier result-padding">
                 {
                     !isDisabled && isAllCirclesFilled() && 
                     <span className="check-button" onClick={(_)=>calculateRowResult()}>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="35" height="35">
-                            <path fill="#4caf50" d="M9.292 15.707L5.5 11.914l1.414-1.414 2.378 2.378L16.586 6.5l1.414 1.414z"/>
-                        </svg>
+                        <img src="assets/images/svgs/tick-icon.svg" alt="tick-icon" />
                     </span>
                 }
             </div>
             <div className="result-container">
-                {
-                    row.status === rowStatuses.COMPLETED 
-                    ? 
-                        <RowResult 
-                        blackCircleCount={row?.result?.correct || 0} 
-                        whiteCircleCount={row?.result?.missPlaced || 0} 
-                        crossCircleCount={row?.result?.wrong || 0} 
-                        /> 
-                    :
-
-                        <RowResult  
-                            whiteCircleCount={noOFColorsToChose} 
-                        />
-                }
+                <RowResult 
+                    result={currentRow?.result}
+                />
             </div>
         </div>
     )

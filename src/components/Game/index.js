@@ -2,12 +2,12 @@ import { useState } from "react";
 import './Game.css';
 import FillableCircle from "../common/FillableCircle";
 import GameRow from "./GameRow";
-import {masterColors,  noOFColorsToChose, generateRandomArray, getDefaultConfigs} from "../../utils";
+import { noOFColorsToChose, generateRandomArray, allowedTries, masterColors} from "../../utils";
 import InfoModal from "../common/InfoModal";
 
 const Game = () => {
     const [targetColorSequence, setTargetColorSequence] =  useState(generateRandomArray(masterColors,noOFColorsToChose));
-    const [gameConfig,setGameConfig] = useState(getDefaultConfigs());
+    const [gameConfig,setGameConfig] = useState([...Array(allowedTries)]);
     const [selectedColor,setSelectedColor] = useState(masterColors[0]);
     const [activeRowIndex, setActiveRowIndex] = useState(0);
     const [showInfoModal, setShowInfoModal] = useState(true);
@@ -15,24 +15,21 @@ const Game = () => {
         setShowInfoModal(false);
         setSelectedColor(masterColors[0]);
         setActiveRowIndex(0);
-        setGameConfig(getDefaultConfigs());
+        setGameConfig([...Array(allowedTries)]);
         setTargetColorSequence(generateRandomArray(masterColors,noOFColorsToChose));
     }
     return (
         <div className="game-content">
             <div className="left-content">
                 {
-                    gameConfig.map((gameRow,index) => 
+                    gameConfig.map((_,index) =>
                         <GameRow 
-                            key={index} 
+                            key={`game-row-${index}`} 
                             rowIndex={index}
                             isDisabled={activeRowIndex !== index}
                             setActiveRowIndex={setActiveRowIndex} 
-                            row={gameRow} 
                             setShowInfoModal = {setShowInfoModal}
                             selectedColor={selectedColor} 
-                            gameConfig={gameConfig}
-                            setGameConfig = {setGameConfig}
                             expectedResult={targetColorSequence}  />
                     )
                 }
@@ -42,12 +39,12 @@ const Game = () => {
                     masterColors.map((color,index) => <div key={index} ><FillableCircle isHighlighted={color === selectedColor}  fillerColor={color} onClick={(_)=>setSelectedColor(color)} /></div> )
                 }
             </div>
-            {/* uncomment to show the desired sequence 
+            {/* uncomment to show the desired sequence  */}
             <div>
                 {
                     targetColorSequence.map((color,index)=><div key={index} ><FillableCircle  fillerColor={color} onClick={(_)=>setSelectedColor(color)} /> </div>)
                 }
-            </div> */}
+            </div>
                 {
                     showInfoModal === "won" && 
                     <InfoModal 
