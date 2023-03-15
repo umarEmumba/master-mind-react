@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 const GameRow = ({rowIndex, selectedColor, expectedResult, setActiveRowIndex, isDisabled, setShowInfoModal}) => {
     const [currentRow,setcurrentRow] = useState(gameRow());
-    useEffect(()=>{
+    useEffect(function resetRow(){
         setcurrentRow(gameRow());
     },[expectedResult]);
 

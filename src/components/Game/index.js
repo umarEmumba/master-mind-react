@@ -4,10 +4,9 @@ import FillableCircle from "../common/FillableCircle";
 import GameRow from "./GameRow";
 import { noOFColorsToChose, generateRandomArray, allowedTries, masterColors} from "../../utils";
 import InfoModal from "../common/InfoModal";
-
+const gameConfig = [...Array(allowedTries)];
 const Game = () => {
     const [targetColorSequence, setTargetColorSequence] =  useState(generateRandomArray(masterColors,noOFColorsToChose));
-    const [gameConfig,setGameConfig] = useState([...Array(allowedTries)]);
     const [selectedColor,setSelectedColor] = useState(masterColors[0]);
     const [activeRowIndex, setActiveRowIndex] = useState(0);
     const [showInfoModal, setShowInfoModal] = useState(true);
@@ -15,7 +14,6 @@ const Game = () => {
         setShowInfoModal(false);
         setSelectedColor(masterColors[0]);
         setActiveRowIndex(0);
-        setGameConfig([...Array(allowedTries)]);
         setTargetColorSequence(generateRandomArray(masterColors,noOFColorsToChose));
     }
     return (
@@ -23,13 +21,13 @@ const Game = () => {
             <div className="left-content">
                 {
                     gameConfig.map((_,index) =>
-                        <GameRow 
-                            key={`game-row-${index}`} 
+                        <GameRow
+                            key={`game-row-${index}`}
                             rowIndex={index}
                             isDisabled={activeRowIndex !== index}
-                            setActiveRowIndex={setActiveRowIndex} 
+                            setActiveRowIndex={setActiveRowIndex}
                             setShowInfoModal = {setShowInfoModal}
-                            selectedColor={selectedColor} 
+                            selectedColor={selectedColor}
                             expectedResult={targetColorSequence}  />
                     )
                 }
