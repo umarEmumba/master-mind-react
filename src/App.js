@@ -1,5 +1,3 @@
-import { createContext } from 'react';
-import './App.css';
 import Container from './components/common/Container';
 import Game from './components/Game';
 import GameRules from './components/GameRules';
