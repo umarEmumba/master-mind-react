@@ -1,12 +1,16 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SelectedColorContext } from "../../../../contexts/SelectedColorContext";
-import { gameRow, noOFColorsToChose, rowStatuses } from "../../../../utils";
+import { defaultColor, gameRow, noOFColorsToChose, rowStatuses } from "../../../../utils";
 
-export const useGameRow = () => {
-    
+export const useGameRow = (expectedResult) => {
+
     const {selectedColor} = useContext(SelectedColorContext);
     const [currentRow,setcurrentRow] = useState(gameRow());
     
+    useEffect(function resetRow(){
+        setcurrentRow(gameRow());
+    },[expectedResult]);
+
     const setCircleColor = (circleIndex) => {
         setcurrentRow((prevRow)=>{
             const modifiedRow = Object.assign({}, prevRow);
@@ -15,7 +19,7 @@ export const useGameRow = () => {
         });
     }
     
-    const calculateResult = (expectedResult)=> {
+    const calculateResult = ()=> {
         let targetResult = Object.assign([],expectedResult);
         const checkedIndexes = [...Array(noOFColorsToChose)]; 
         // calculate correct guesses
@@ -45,6 +49,8 @@ export const useGameRow = () => {
         });
         return correct;
     }
+
+    const isAllCirclesFilled = () => !currentRow.circles.some((circle)=> circle.color === defaultColor)
     // some instead of every because of less time complexity
-    return {currentRow, setcurrentRow, setCircleColor,calculateResult}
+    return {currentRow, setcurrentRow, setCircleColor, calculateResult, isAllCirclesFilled}
 }

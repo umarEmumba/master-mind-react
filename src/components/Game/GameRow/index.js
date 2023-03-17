@@ -1,24 +1,16 @@
 import './GameRow.css';
 import FillableCircle from "../../common/FillableCircle";
-import { defaultColor, gameRow } from '../../../utils';
 import RowResult from './RowResult';
-import { useEffect } from 'react';
 import TickButton from '../../common/TickButton';
 import { useGameRow } from './useGameRow';
 const GameRow = ({ expectedResult, isDisabled, resultAction}) => {
 
-    const {currentRow, setcurrentRow, setCircleColor,calculateResult} = useGameRow();
-
-    useEffect(function resetRow(){
-        setcurrentRow(gameRow());
-    },[expectedResult,setcurrentRow]);
+    const {currentRow, setCircleColor, calculateResult, isAllCirclesFilled} = useGameRow(expectedResult);
 
     const calculateRowResult = () => {
-        const correct =  calculateResult(expectedResult);
+        const correct =  calculateResult();
         resultAction(correct);
     }
-    // some instead of every because of less time complexity
-    const isAllCirclesFilled = () => !currentRow.circles.some((circle)=> circle.color === defaultColor)
 
     return (
         <div className={`game-row ${isDisabled ? 'disabled' : 'row-border'}`}>
