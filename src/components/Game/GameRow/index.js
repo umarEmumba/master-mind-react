@@ -1,55 +1,20 @@
 import './GameRow.css';
 import FillableCircle from "../../common/FillableCircle";
-import { defaultColor, gameRow, noOFColorsToChose, rowStatuses } from '../../../utils';
+import { defaultColor, gameRow } from '../../../utils';
 import RowResult from './RowResult';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import TickButton from '../../common/TickButton';
-import { SelectedColorContext } from '../../../contexts/SelectedColorContext';
+import { useGameRow } from './useGameRow';
 const GameRow = ({ expectedResult, isDisabled, resultAction}) => {
-    
-    const [currentRow,setcurrentRow] = useState(gameRow());
-    const {selectedColor} = useContext(SelectedColorContext);
-    
+
+    const {currentRow, setcurrentRow, setCircleColor,calculateResult} = useGameRow();
+
     useEffect(function resetRow(){
         setcurrentRow(gameRow());
-    },[expectedResult]);
+    },[expectedResult,setcurrentRow]);
 
-    const setCircleColor = (circleIndex) => {
-        setcurrentRow((prevRow)=>{
-            const modifiedRow = Object.assign({}, prevRow);
-                modifiedRow.circles[circleIndex].color = selectedColor;
-                return modifiedRow;
-        });
-    }
-    
-    const calculateRowResult = ()=> {
-        let targetResult = Object.assign([],expectedResult);
-        const checkedIndexes = [...Array(noOFColorsToChose)]; 
-        // calculate correct guesses
-        currentRow.circles?.forEach((colorInQuestion,index) => {
-            if(colorInQuestion.color === expectedResult[index])
-            {
-                checkedIndexes[index] = true;
-                targetResult.splice(( targetResult.length - expectedResult.length + index),1);
-            }
-        });
-        const correct = expectedResult.length - targetResult.length;
-        //calculate miss placed guesses
-        currentRow.circles?.forEach((colorInQuestion,index) => {
-            if(targetResult.includes(colorInQuestion.color) && !checkedIndexes[index])
-                targetResult.splice([targetResult.indexOf(colorInQuestion.color)],1);
-        });
-        const missPlaced = expectedResult.length - correct - targetResult.length;
-        const wrong = targetResult.length;
-        // set relevent states
-        setcurrentRow((prevRow)=>{
-            const modifiedRow = Object.assign({},prevRow);
-            modifiedRow.result = {
-                correct,missPlaced,wrong
-            }
-            modifiedRow.status = rowStatuses.COMPLETED;
-            return modifiedRow;
-        });
+    const calculateRowResult = () => {
+        const correct =  calculateResult(expectedResult);
         resultAction(correct);
     }
     // some instead of every because of less time complexity
