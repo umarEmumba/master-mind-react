@@ -7,3 +7,10 @@
 .result-button-contaier {
     min-width: 30px;
 }
+.disabled {
+    opacity :  0.6;
+    pointer-events : none;
+}
+.row-border {
+    border :  1px solid gray
+}

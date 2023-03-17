@@ -4,22 +4,18 @@ import Container from './components/common/Container';
 import Game from './components/Game';
 import GameRules from './components/GameRules';
 import Header from './components/Header';
-import { masterColors } from './utils';
+import ColorContextProvider from './contexts/SelectedColorContext';
 
-
-
+export const MasterColorsContext = createContext();
 function App() {
-  const MasterColorsContext = createContext();
   return (
-    
     <Container>
       <Header />
       <GameRules />
-      <MasterColorsContext.Provider value={masterColors} >
+      <ColorContextProvider>
         <Game />
-      </MasterColorsContext.Provider>
+      </ColorContextProvider>
     </Container>
-
   );
 }
 
