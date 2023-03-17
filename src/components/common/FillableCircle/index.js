@@ -1,5 +1,11 @@
 import './FillableCircle.css';
-const FillableCircle = ({fillerColor,isHighlighted = false,onClick=()=>{}}) => {
-    return (<span onClick={onClick} className="circle" style={{backgroundColor: fillerColor, border: isHighlighted ? '1px solid' : 'none'}}></span>)
+const FillableCircle = ({fillerColor,onClick}) => {
+    const backGroundStyle = {
+        backgroundColor: fillerColor
+    }
+    
+    return (
+    <span onClick={onClick} className="circle" style={backGroundStyle}></span>
+    )
 }
 export default FillableCircle;
