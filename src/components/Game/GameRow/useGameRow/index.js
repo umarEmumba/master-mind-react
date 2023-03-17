@@ -19,7 +19,7 @@ export const useGameRow = (expectedResult) => {
         });
     }
     
-    const calculateResult = ()=> {
+    const calculateResult = () => {
         let targetResult = Object.assign([],expectedResult);
         const checkedIndexes = [...Array(noOFColorsToChose)]; 
         // calculate correct guesses
@@ -50,7 +50,7 @@ export const useGameRow = (expectedResult) => {
         return correct;
     }
 
-    const isAllCirclesFilled = () => !currentRow.circles.some((circle)=> circle.color === defaultColor)
     // some instead of every because of less time complexity
+    const isAllCirclesFilled = () => !currentRow.circles.some((circle)=> circle.color === defaultColor)
     return {currentRow, setcurrentRow, setCircleColor, calculateResult, isAllCirclesFilled}
 }

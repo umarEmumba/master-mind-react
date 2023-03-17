@@ -6,7 +6,6 @@ import GameRules from './components/GameRules';
 import Header from './components/Header';
 import ColorContextProvider from './contexts/SelectedColorContext';
 
-export const MasterColorsContext = createContext();
 function App() {
   return (
     <Container>

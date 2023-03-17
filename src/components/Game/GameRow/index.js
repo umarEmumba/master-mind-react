@@ -3,6 +3,7 @@ import FillableCircle from "../../common/FillableCircle";
 import RowResult from './RowResult';
 import TickButton from '../../common/TickButton';
 import { useGameRow } from './useGameRow';
+
 const GameRow = ({ expectedResult, isDisabled, resultAction}) => {
 
     const {currentRow, setCircleColor, calculateResult, isAllCirclesFilled} = useGameRow(expectedResult);
