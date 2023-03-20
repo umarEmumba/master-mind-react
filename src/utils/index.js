@@ -13,6 +13,5 @@ export const gameRow = () => {
         circles: getcircles(defaultColor),
     }
 };
-export const getDefaultConfigs = () => [...Array(allowedTries)].map((_)=>gameRow());
 export const generateRandomArray = (targetArray,noOfChoices) => 
     [...Array(noOfChoices)].map(()=> targetArray[Math.floor(Math.random()*targetArray.length)])

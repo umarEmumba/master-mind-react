@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 import { masterColors } from "../../utils";
 
 export const SelectedColorContext = createContext({
-    selectedColor : masterColors[0],
+    selectedColor : "",
     setSelectedColor : () => {},
 });
 
