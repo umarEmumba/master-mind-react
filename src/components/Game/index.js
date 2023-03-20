@@ -1,10 +1,10 @@
 import { useContext, useState, useCallback } from "react";
-import './Game.css';
 import GameRow from "./GameRow";
 import { noOFColorsToChose, generateRandomArray, allowedTries, masterColors} from "../../utils";
 import InfoModal from "../common/InfoModal";
 import { SelectedColorContext } from "../../contexts/SelectedColorContext";
 import SelectableCircle from "../common/SelectableCircle";
+import './Game.css';
 const gameConfig = [...Array(allowedTries)];
 const Game = () => {
     const [targetColorSequence, setTargetColorSequence] = useState(generateRandomArray(masterColors,noOFColorsToChose));

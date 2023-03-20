@@ -6,7 +6,7 @@ import { useGameRow } from './useGameRow';
 
 const GameRow = ({ expectedResult, isDisabled, resultAction}) => {
 
-    const {currentRow, setCircleColor, calculateResult, isAllCirclesFilled} = useGameRow(expectedResult);
+    const { currentRow, setCircleColor, calculateResult, isAllCirclesFilled } = useGameRow(expectedResult);
 
     const calculateRowResult = () => {
         const correct =  calculateResult();

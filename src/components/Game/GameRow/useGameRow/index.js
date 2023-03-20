@@ -50,7 +50,6 @@ export const useGameRow = (expectedResult) => {
         return correct;
     }
 
-    // some instead of every because of less time complexity
-    const isAllCirclesFilled = () => !currentRow.circles.some((circle)=> circle.color === defaultColor)
+    const isAllCirclesFilled = () => currentRow.circles.every((circle)=> circle.color !== defaultColor)
     return {currentRow, setcurrentRow, setCircleColor, calculateResult, isAllCirclesFilled}
 }
